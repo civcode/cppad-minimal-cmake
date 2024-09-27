@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 
+#include <matplot/matplot.h>
 #include "tic_toc_timer.h"
 
 
@@ -31,7 +32,7 @@ std::vector<T> ParametricHermiteSpline(T t, const std::vector<T>& p0, const std:
 double computeParametricPathLength(const std::vector<double>& p0, const std::vector<double>& m0,
                                    const std::vector<double>& p1, const std::vector<double>& m1) {
     // Number of sample points for numerical integration
-    const int N = 50;
+    const int N = 10;
     double dt = 1.0 / N;
     double path_length = 0.0;
 
@@ -157,7 +158,7 @@ int main() {
     std::vector<double> p0 = {0.0, 0.0};  // Start point (x0, y0)
     std::vector<double> p1 = {1.0, 1.0};  // End point (x1, y1)
     std::vector<double> m0 = {1.0, 0.0};  // Tangent at p0
-    std::vector<double> m1 = {0.0, 1.0};  // Tangent at p1
+    std::vector<double> m1 = {-1.0, 1.0};  // Tangent at p1
 
     TicTocTimer timer;
 
@@ -179,6 +180,25 @@ int main() {
     std::cout << std::endl;
 
     std::cout << "Difference:  " << std::abs(path_length - arc_length) << std::endl;
+
+    // Plot the spline
+    std::vector<double> x_vals, y_vals;
+    for (int i = 0; i <= 100; ++i) {
+        double t = i / 100.0;
+        std::vector<double> H = ParametricHermiteSpline(t, p0, m0, p1, m1);
+        x_vals.push_back(H[0]);
+        y_vals.push_back(H[1]);
+    }
+
+    namespace mp = matplot;
+    mp::figure();
+    mp::plot(x_vals, y_vals)->line_width(2);
+    mp::title("Parametric Hermite Spline");
+    mp::xlabel("x");
+    mp::ylabel("y");
+    mp::grid(true);
+    mp::show();
+
 
     return 0;
 }

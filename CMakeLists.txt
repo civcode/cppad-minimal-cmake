@@ -19,6 +19,7 @@ FetchContent_MakeAvailable(tictoctimer)
 
 # Find and link the CppAD library
 find_package(PkgConfig REQUIRED)
+find_package(Matplot++ REQUIRED)
 
 # Append to PKG_CONFIG_PATH to find the CppAD package
 set(ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:/home/chris/.local/lib/pkgconfig")
@@ -32,7 +33,7 @@ link_directories(${CPPAD_LIBRARY_DIRS})
 add_executable(HermiteSplinePathLength src/main.cpp)
 
 # Link the CppAD library to your project
-target_link_libraries(HermiteSplinePathLength ${CPPAD_LIBRARIES} tictoctimer)
+target_link_libraries(HermiteSplinePathLength ${CPPAD_LIBRARIES} tictoctimer Matplot++::matplot)
 
 # Optionally, you can enable compiler warnings for better development practices
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
