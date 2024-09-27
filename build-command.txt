@@ -1,0 +1,5 @@
+g++ -o newton_raphson newton_raphson.cpp -lboost_math_tr1 -std=c++17
+
+g++ -o newton_raphson ../src/newton_raphson.cpp -lboost_math_tr1 -std=c++17
+
+
